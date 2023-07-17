@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block Titulo %}{{ Titulo }}{% endblock Titulo %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Inicio</a> <i>&rsaquo;</i> 
+    <a href="{% url 'programs' %}" class="primary1">Programas</a> <i>&rsaquo;</i> Agregar</div>
+<br>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div class="row">
+<div class="col-md-6 mx-auto">
+    <div class="card">
+        <p class="form-title">Formulario de Agregar Programa</p>
+        <div class="p-3"><br>
+            <form action="" method="POST">{% csrf_token %}
+                <!-- {{ form|crispy }} -->
+                
+                <div class="form-group">
+                    <b>{{ form.Titulo.label }}</b>{{ form.Titulo }}
+                    <span class="danger">{{ form.Titulo.errors }}</span>
+                </div>
+                <div class="form-group">
+                    <b>{{ form.Descripcion.label }}</b>{{ form.Descripcion }}
+                    <span class="danger">{{ form.Descripcion.errors }}</span>
+                </div>
+
+                <input class="btn btn-outline-primary" type="submit" value="Guardar">
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}

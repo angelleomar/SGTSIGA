@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block Titulo %}{{ Titulo }}{% endblock Titulo %}
+{% load crispy_forms_tags %}
+{% load static %}
+ {% block content %}
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Inicio</a> <i>&rsaquo;</i> 
+    <a href="{% url 'semester_list' %}" class="primary1">Lista de Semestres</a> <i>&rsaquo;</i> Agregar y Actualizar Semestre</div>
+<br>
+ {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+ <div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card pb-3">
+            <p class="form-title">Formulario para Agregar y Actualizar Semestre</p>
+            <div class="container"><br>
+                <form action="" method="POST">{% csrf_token %}
+                    {% for f in form %}{{ f.label }}{{ f }}<hr>{% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Guardar">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ {% endblock content %}

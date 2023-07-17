@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block Titulo %}{{ Titulo }}{% endblock Titulo %}
+{% load crispy_forms_tags %}
+{% load static %}
+ {% block content %}
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Inicio</a> <i>&rsaquo;</i> 
+    <a href="{% url 'programs' %}" class="primary1">Programas</a> <i>&rsaquo;</i> Agregar y Actualizar Curso</div>
+ <div class="title-1">Formulario de Agregar y Actualizar Curso</div>
+<div class="title-line"></div>
+ {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+ <form action="" method="POST">{% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <p class="form-title">Información del Curso</p>
+                <div class="p-3">
+                     <div class="form-group">
+                        <b>{{ form.Titulo.label }}</b>{{ form.Titulo}}
+                        <span class="danger">{{ form.Titulo.errors }}</span>
+                        <p class="text-muted-xs">Requerido. 150 caracteres o menos. Solo letras, dígitos y @/./+/-/_.</p>
+                    </div>
+                    <div class="form-group">
+                        <b>{{ form.code.label }}</b>{{ form.code }}
+                        <span class="danger">{{ form.code.errors }}</span>
+                        <p class="text-muted-xs">El código del curso debe ser similar solo a los pre-requisitos.</p>
+                    </div>
+                    <div class="form-group">
+                        <b>{{ form.Descripcion.label }}</b>(opcional){{ form.Descripcion }}
+                        <span class="danger">{{ form.Descripcion.errors }}</span>
+                        <p class="text-muted-xs">Ingrese una descripción sobre el curso.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <p class="form-title">Información del Solicitante</p>
+                <div class="p-3">
+                     <div class="form-group">
+                        <b>{{ form.program.label }}</b>{{ form.program }}
+                        <span class="danger">{{ form.program.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <b>{{ form.credit.label }}</b>{{ form.credit }}
+                        <span class="danger">{{ form.credit.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <b>{{ form.year.label }}</b>{{ form.year }}
+                        <span class="danger">{{ form.year.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <b>{{ form.semester.label }}</b>{{ form.semester }}
+                        <span class="danger">{{ form.semester.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <b>{{ form.level.label }}</b>{{ form.level }}
+                        <span class="danger">{{ form.level.errors }}</span>
+                    </div>
+                    <div class="form-group">
+                        <b>{{ form.is_elective.label }}</b>{{ form.is_elective }}
+                        <span class="danger">{{ form.is_elective.errors }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center><input class="btn btn-outline-primary mt-3" type="submit" value="Guardar"></center>
+</form>
+ {% endblock content %}

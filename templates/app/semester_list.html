@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block Titulo %}{{ Titulo }}{% endblock Titulo %}
+ {% block content %}
+ <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Inicio</a> <i>&rsaquo;</i> Lista de semestres</div>
+ {% if request.user.is_superuser %}
+<a class="add-button" href="{% url 'add_semester' %}"><i class="fas fa-plus"></i>Agregar nuevo semestre</a>
+{% endif %}
+ <div class="title-1"><i class="fas fa-calendar-alt"></i>Lista de semestres</div>
+<div class="title-line"></div>
+ {% if messages %}
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<div class="alert alert-danger">
+    <i class="fas fa-exclamation-circle"></i>{{ message }}
+</div>
+{% else %}
+<div class="alert alert-success">
+    <i class="fas fa-check-circle"></i>{{ message }}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+ <div class="table-responsive table-shadow p-0 mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th> Semestre </th>
+                <th> Es el semestre actual </th>
+                <th> Sesión </th>
+                <th> Próximo semestre comienza </th>
+                {% if request.user.is_superuser %}
+                <th> Acciones </th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for semester in semesters %}
+            <tr>
+                <td> {{ forloop.counter }}.</td>
+                <td>{{ semester.semester }}</td>
+                <th>
+                    {% if semester.is_current_semester == False %}
+                    <i class="fas fa-times-circle fa-1-5x danger"></i>
+                    {% else %}
+                    <i class="fas fa-check-circle fa-1-5x"></i>
+                    <i class="icon-times-circle"></i>
+                    {% endif %}
+                </th>
+                <td>{{ semester.session }}</td>
+                <td>{{ semester.next_semester_begins }}</td>
+                 {% if request.user.is_superuser %}
+                <td>
+                    <div class="update-delete">
+                        <a href="{% url 'edit_semester' pk=semester.pk %}" class="update" title="Editar"><i
+                                class="fas fa-pencil-alt"></i></a>
+                        <a href="{% url 'delete_semester' pk=semester.pk %}" class="delete" title="Eliminar"><i
+                                class="fas fa-trash-alt"></i></a>
+                    </div>
+                </td>
+                {% endif %}
+                 {% empty %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <span class="text-danger">
+                        <i class="far fa-frown"></i>No hay semestres.
+                        {% if request.user.is_superuser %}
+                        <a href="{% url 'add_semester' %}">
+                            <i class="primary" style="font-size: 22px;">
+                                Agregar semestre ahora.
+                            </i>
+                            {% endif %}
+                        </a>
+                    </span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
