@@ -1,6 +1,7 @@
 import os
 import posixpath
 import environ
+import dj_database_url
 
 # Variables de entorno
 env = environ.Env()
@@ -16,8 +17,6 @@ SECRET_KEY = 'o!ld8nrt4vc*h1zoey*wj48x*q0#ss12h=+zh)kk^6b3aygg=!'
 
 # ADVERTENCIA DE SEGURIDAD: no ejecutes con depuración activada en producción.
 DEBUG = True
-
-ALLOWED_HOSTS = []
 
 # Cambiar el modelo de usuario predeterminado por nuestro modelo personalizado
 AUTH_USER_MODEL = 'accounts.User'
@@ -46,7 +45,7 @@ PROJECT_APPS = [
     'app.apps.AppConfig',
     'accounts.apps.AccountsConfig',
     'course.apps.CourseConfig',
-     'result.apps.ResultConfig',
+    'result.apps.ResultConfig',
     'search.apps.SearchConfig',
 ]
 
@@ -85,92 +84,11 @@ WSGI_APPLICATION = 'SMS.wsgi.application'
 
 ASGI_APPLICATION = "SMS.asgi.application"
 
+# Configuración de la base de datos
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
-    }
+    'default': dj_database_url.config(default='postgres://tutorias_user:9JCvSl2wQU1MWhu5cRQVUhJuF5NbooHq@dpg-ciq927l9aq0dcprd0rhg-a.oregon-postgres.render.com/tutorias')
 }
 
-# https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# Validación de contraseñas
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-# Internacionalización
-# https://docs.djangoproject.com/en/2.2/topics/i18n/
-
-LANGUAGE_CODE = 'es-mx'
-
-
-TIME_ZONE = 'America/Mexico_City'
-
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-# Archivos estáticos (CSS, JavaScript, imágenes)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
+# Resto del código...
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['staticfiles']))
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Configuración de correo electrónico
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Aquí se utiliza Gmail como host de correo electrónico, pero puedes cambiarlo
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env('USER_EMAIL')
-EMAIL_HOST_PASSWORD = env('USER_PASSWORD')
-
-# Configuración de Crispy Forms
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-
-# Configuración de DRF (Django Rest Framework)
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication'
-    ]
-}
-
-# Configuración de Stripe (pago)
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
-
-# Configuración de archivos estáticos
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

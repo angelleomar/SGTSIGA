@@ -7,6 +7,16 @@ from accounts.decorators import admin_required, lecturer_required
 from .forms import SessionForm, SemesterForm, NewsAndEventsForm
 from .models import *
 
+from django.shortcuts import render
+
+def handler400(request, exception):
+    return render(request, '400.html', status=400)
+
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
+
+def handler500(request):
+    return render(request, '500.html', status=500)
 
 # ########################################################
 # NOTICIAS & EVENTOS
