@@ -17,6 +17,7 @@ SECRET_KEY = 'o!ld8nrt4vc*h1zoey*wj48x*q0#ss12h=+zh)kk^6b3aygg=!'
 
 # ADVERTENCIA DE SEGURIDAD: no ejecutes con depuración activada en producción.
 DEBUG = True
+ALLOWED_HOSTS =["*"]
 
 # Cambiar el modelo de usuario predeterminado por nuestro modelo personalizado
 AUTH_USER_MODEL = 'accounts.User'
